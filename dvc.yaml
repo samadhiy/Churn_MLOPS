@@ -1,0 +1,33 @@
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+      - data/raw/Churn Prediction Dataset.csv
+    outs:
+      - data/processed/raw_copy.csv
+
+  preprocessing:
+    cmd: python src/preprocessing.py
+    deps:
+      - src/preprocessing.py
+      - data/processed/raw_copy.csv
+    outs:
+      - data/processed/X_train.csv
+      - data/processed/X_test.csv
+      - data/processed/y_train.csv
+      - data/processed/y_test.csv
+
+  training:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/X_train.csv
+    outs:
+      - models/
+
+  evaluation:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/
