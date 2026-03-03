@@ -1,0 +1,16 @@
+# Secrets
+.env
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+venv/
+.venv/
+
+# Large ML data & models (Should be tracked by DVC instead)
+models/
+data/
+*.pkl
+*.csv
