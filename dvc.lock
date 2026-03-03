@@ -1,0 +1,75 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: data/raw/Churn Prediction Dataset.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 54bbd90417399d6d40b7e98283812b26
+      size: 432
+    outs:
+    - path: data/processed/raw_copy.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+  preprocessing:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: data/processed/raw_copy.csv
+      hash: md5
+      md5: 7f07de26b054de4c36eed95a1277fe21
+      size: 978285
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 0817ccd8174cf45d6af5390d353f82b4
+      size: 1277
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: f33109f53191000b5763a96dfaab8995
+      size: 828741
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: 44ff2535a137d5c88a4be898b8e01601
+      size: 3313112
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 201501840c586317ad0f805ea0d84683
+      size: 4234
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 926d3a60b321ffecd9e602d5d259a705
+      size: 16909
+  training:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: 44ff2535a137d5c88a4be898b8e01601
+      size: 3313112
+    - path: src/train.py
+      hash: md5
+      md5: 17a8b86275ceb8efa3f125391aae2ca0
+      size: 1798
+    outs:
+    - path: models/
+      hash: md5
+      md5: 8b361839dfff02697c0d4b3661aa697b.dir
+      size: 19618255
+      nfiles: 3
+  evaluation:
+    cmd: python src/evaluate.py
+    deps:
+    - path: models/
+      hash: md5
+      md5: 8b361839dfff02697c0d4b3661aa697b.dir
+      size: 19618255
+      nfiles: 3
+    - path: src/evaluate.py
+      hash: md5
+      md5: 1c6712a743b2a594a17ea174e518de15
+      size: 2026
